@@ -20,6 +20,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.eliavmenachi.simplelist.model.Company;
 import com.example.eliavmenachi.simplelist.model.Model;
 import com.example.eliavmenachi.simplelist.model.Employee;
 import com.parse.Parse;
@@ -32,6 +33,7 @@ import java.util.List;
 public class MainActivity extends Activity {
     ListView myList;
     List<Employee> data = new LinkedList<Employee>();
+    Company company;
     CustomAdapter adapter;
     ProgressBar progressBar;
     static final int NEW_STUDENT_REQUEST = 1;
@@ -60,14 +62,13 @@ public class MainActivity extends Activity {
             }
         });
         progressBar.setVisibility(View.VISIBLE);
-        //setProgressBarIndeterminateVisibility(true);
-        Model.getInstance().getAllStudentsAsynch(new Model.GetStudentsListener() {
+        setProgressBarIndeterminateVisibility(true);
+        Model.getInstance().getAllStudentsAsynch(new Model.GetCompaniesListener() {
             @Override
-            public void onResult(List<Employee> employees) {
+            public void onResult(List<Company> companies) {
                 progressBar.setVisibility(View.GONE);
-                data = employees;
+                data = companies.get(0).getEmployees();
                 adapter.notifyDataSetChanged();
-
             }
         });
     }

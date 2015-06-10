@@ -11,6 +11,10 @@ import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.ByteArrayOutputStream;
 import java.util.LinkedList;
 import java.util.List;
@@ -19,10 +23,11 @@ public class ModelParse {
 
 
     public void init(Context context) {
-        Parse.initialize(context, "ogO05zob4Nsu62XkQGd8msvJdRBryvAr8KBwlI7H", "ENojxRTz35xPzL0aIqLvhnD5otgGY5X5YM3RPJZ2");
+        Parse.initialize(context, "XVWymanigAubTFuWH2t0Un36CCQBiwdQkT9yYjjF", "PDsc4qAgyyFyHWO0mutnGc2Q2OsIJ6YyOuK9C6E9");
     }
 
-    public List<Employee> getAllStudents() {
+    public List<Employee> getAllEmployees() {
+        ParseQuery q = new ParseQuery("company");
         List<Employee> students = new LinkedList<Employee>();
         ParseQuery query = new ParseQuery("employee");
         try {
@@ -88,30 +93,47 @@ public class ModelParse {
         }
     }
 
-    public void getAllStudentsAsynch(final Model.GetStudentsListener listener) {
-        ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("student");
+    public void getAllCompaniesAsynch(final Model.GetCompaniesListener listener) {
+        ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Company");
+//        query.whereEqualTo("name", "Microsoft");
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> parseObjects, ParseException e) {
-                List<Employee> students = new LinkedList<Employee>();
+                List<Company> companies = new LinkedList<Company>();
+
                 if (e == null) {
-                    for (ParseObject po : parseObjects) {
-                        String id = po.getString("stid");
-                        String name = po.getString("name");
-                        String address = po.getString("address");
-                        String imageName = po.getString("imageName");
-                        String dep = po.getString("department");
-                        String comp = po.getString("company");
-                        String phone = po.getString("phone");
-                        boolean atWork = po.getBoolean("atWork");
-                        Employee emp = new Employee(id, name, address, imageName, phone, dep, comp, atWork);
-                        students.add(emp);
+                    List<Employee> emps = new LinkedList<Employee>();
+                    for (ParseObject co : parseObjects) {
+                        String id = co.getObjectId();
+                        String name = co.getString("name");
+                        JSONArray jsonMainArr = co.getJSONArray("employees");
+                        for (int i = 0; i < jsonMainArr.length(); i++) {
+                            JSONObject po = null;
+                            try {
+                                po = jsonMainArr.getJSONObject(i);
+                                String eid = po.getString("id");
+                                String ename = po.getString("name");
+                                String address = po.getString("address");
+                                String imageName = po.getString("imageName");
+                                String phone = po.getString("phone");
+                                String dep = po.getString("department");
+                                String comp = po.getString("company");
+                                boolean atWork = po.getBoolean("atWork");
+                                Employee emp = new Employee(eid, ename, address, imageName, phone, dep, comp, atWork);
+                                emps.add(emp);
+                            } catch (JSONException e1) {
+                                e1.printStackTrace();
+                            }
+                        }
+                        Company com = new Company(id, name, emps);
+                        companies.add(com);
                     }
                 }
-                listener.onResult(students);
+                listener.onResult(companies);
             }
         });
     }
+
 
     public void saveImage(Bitmap imageBitmap, String imageName) {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();

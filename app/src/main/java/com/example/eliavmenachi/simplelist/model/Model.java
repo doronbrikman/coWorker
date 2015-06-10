@@ -39,15 +39,15 @@ public class Model {
     }
 
     public List<Employee> getAllStudents(){
-        return model.getAllStudents();
+        return model.getAllEmployees();
     }
 
-    public interface GetStudentsListener{
-        public void onResult(List<Employee> students);
+    public interface GetCompaniesListener{
+        public void onResult(List<Company> students);
     }
 
-    public void getAllStudentsAsynch(GetStudentsListener listener){
-        model.getAllStudentsAsynch(listener);
+    public void getAllStudentsAsynch(GetCompaniesListener listener){
+        model.getAllCompaniesAsynch(listener);
     }
 
     public interface GetStudent{
