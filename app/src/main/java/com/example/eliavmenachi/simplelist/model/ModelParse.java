@@ -98,8 +98,9 @@ public class ModelParse {
     }
 
     public void getAllCompaniesAsynch(final Model.GetCompaniesListener listener) {
+        ParseUser currentUser = ParseUser.getCurrentUser();
         ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Company");
-//        query.whereEqualTo("name", "Microsoft");
+        query.whereEqualTo("objectId", ((ParseObject) currentUser.get("companyId")).getObjectId());
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> parseObjects, ParseException e) {
