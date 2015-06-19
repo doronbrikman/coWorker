@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ import android.widget.Toast;
 import com.example.eliavmenachi.simplelist.model.Company;
 import com.example.eliavmenachi.simplelist.model.Employee;
 import com.example.eliavmenachi.simplelist.model.Model;
+import com.parse.ParseObject;
 import com.parse.ParseUser;
 
 import java.util.LinkedList;
@@ -87,7 +89,15 @@ public class WorkersListActivity extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_workers_list, menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_workers_list, menu);
+
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        boolean b = currentUser.getBoolean("admin");
+
+        menu.getItem(0).setVisible(b);
+
+        //getMenuInflater().inflate(R.menu.menu_workers_list, menu);
         return true;
     }
 
