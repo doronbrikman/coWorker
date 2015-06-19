@@ -1,12 +1,12 @@
 package com.example.eliavmenachi.simplelist;
 
-import android.support.v7.app.ActionBarActivity;
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
 
-public class WorkersListActivity extends ActionBarActivity {
+public class WorkersListActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

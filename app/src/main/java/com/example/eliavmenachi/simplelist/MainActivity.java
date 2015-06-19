@@ -19,6 +19,8 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.parse.ParseAnonymousUtils;
+import com.parse.ParseUser;
 
 import com.example.eliavmenachi.simplelist.model.Company;
 import com.example.eliavmenachi.simplelist.model.Model;
@@ -47,30 +49,30 @@ public class MainActivity extends Activity {
 
         Model.getInstance().init(this);
 
-        myList = (ListView) findViewById(R.id.listView);
-
-        adapter = new CustomAdapter();
-        myList.setAdapter(adapter);
-
-        myList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getApplicationContext(),"item click " + position,Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(getApplicationContext(),EmployeeDetailsActivity.class);
-                intent.putExtra("id",data.get(position).getId());
+        // Determine whether the current user is an anonymous user
+        if (ParseAnonymousUtils.isLinked(ParseUser.getCurrentUser())) {
+            // If user is anonymous, send the user to LoginSignupActivity.class
+            Intent intent = new Intent(MainActivity.this,
+                                        LoginActivity.class);
+            startActivity(intent);
+            finish();
+        } else {
+            // If current user is NOT anonymous user
+            // Get current user data from Parse.com
+            ParseUser currentUser = ParseUser.getCurrentUser();
+            if (currentUser != null) {
+                // Send logged in users to Welcome.class
+                Intent intent = new Intent(MainActivity.this, WorkersListActivity.class);
                 startActivity(intent);
+                finish();
+            } else {
+                // Send user to LoginSignupActivity.class
+                Intent intent = new Intent(MainActivity.this,
+                                           LoginActivity.class);
+                startActivity(intent);
+                finish();
             }
-        });
-        progressBar.setVisibility(View.VISIBLE);
-        setProgressBarIndeterminateVisibility(true);
-        Model.getInstance().getAllStudentsAsynch(new Model.GetCompaniesListener() {
-            @Override
-            public void onResult(List<Company> companies) {
-                progressBar.setVisibility(View.GONE);
-                data = companies.get(0).getEmployees();
-                adapter.notifyDataSetChanged();
-            }
-        });
+        }
     }
 
     @Override

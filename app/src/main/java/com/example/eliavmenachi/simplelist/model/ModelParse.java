@@ -10,6 +10,8 @@ import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseACL;
+import com.parse.ParseUser;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,6 +26,8 @@ public class ModelParse {
 
     public void init(Context context) {
         Parse.initialize(context, "XVWymanigAubTFuWH2t0Un36CCQBiwdQkT9yYjjF", "PDsc4qAgyyFyHWO0mutnGc2Q2OsIJ6YyOuK9C6E9");
+        ParseUser.enableAutomaticUser();
+        ParseACL defaultACL = new ParseACL();
     }
 
     public List<Employee> getAllEmployees() {
