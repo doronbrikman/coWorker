@@ -30,12 +30,12 @@ import java.util.List;
 
 
 public class WorkersListActivity extends Activity {
+    static final int BACK_FROM_NEW_EMPLOYEE_ACTIVITY = 1;
     ListView myList;
     List<Employee> data = new LinkedList<Employee>();
     Company company;
     CustomAdapter adapter;
     ProgressBar progressBar;
-    static final int NEW_STUDENT_REQUEST = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +75,7 @@ public class WorkersListActivity extends Activity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         // Check which request we're responding to
-        if (requestCode == NEW_STUDENT_REQUEST) {
+        if (requestCode == BACK_FROM_NEW_EMPLOYEE_ACTIVITY) {
             // Make sure the request was successful
             if (resultCode == RESULT_OK) {
                 data = Model.getInstance().getAllStudents();
@@ -101,7 +101,7 @@ public class WorkersListActivity extends Activity {
         switch(id){
             case R.id.action_add:
                 Intent intent = new Intent(getApplicationContext(),NewEmployeeActivity.class);
-                startActivityForResult(intent,NEW_STUDENT_REQUEST);
+                startActivityForResult(intent,BACK_FROM_NEW_EMPLOYEE_ACTIVITY);
                 return true;
         }
 
