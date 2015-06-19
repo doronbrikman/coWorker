@@ -47,19 +47,19 @@ public class Model {
         model.getCompaniesPostsAsync(listener);
     }
 
-    public interface GetCompaniesListener{
-        public void onResult(List<Company> students);
+    public interface GetEmployeeListener{
+        public void onResult(List<Employee> employees);
     }
 
-    public void getAllStudentsAsynch(GetCompaniesListener listener){
-        model.getAllCompaniesAsynch(listener);
+    public void getAllStudentsAsynch(GetEmployeeListener listener){
+        model.getAllEmployeesAsynch(listener);
     }
 
-    public interface GetStudent{
-        public void onResult(Employee student);
+    public interface GetEmployee{
+        public void onResult(Employee employee);
     }
 
-    public void getStudentById(String id,GetStudent listener){
+    public void getStudentById(String id,GetEmployee listener){
         model.getStudentById(id,listener);
     }
 

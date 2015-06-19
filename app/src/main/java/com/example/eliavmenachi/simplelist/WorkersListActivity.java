@@ -30,12 +30,10 @@ import com.parse.ParseUser;
 import java.util.LinkedList;
 import java.util.List;
 
-
 public class WorkersListActivity extends Activity {
     static final int BACK_FROM_NEW_EMPLOYEE_ACTIVITY = 1;
     ListView myList;
     List<Employee> data = new LinkedList<Employee>();
-    Company company;
     CustomAdapter adapter;
     ProgressBar progressBar;
 
@@ -64,11 +62,11 @@ public class WorkersListActivity extends Activity {
         });
         progressBar.setVisibility(View.VISIBLE);
         setProgressBarIndeterminateVisibility(true);
-        Model.getInstance().getAllStudentsAsynch(new Model.GetCompaniesListener() {
+        Model.getInstance().getAllStudentsAsynch(new Model.GetEmployeeListener() {
             @Override
-            public void onResult(List<Company> companies) {
+            public void onResult(List<Employee> employees) {
                 progressBar.setVisibility(View.GONE);
-                data = companies.get(0).getEmployees();
+                data = employees;
                 adapter.notifyDataSetChanged();
             }
         });

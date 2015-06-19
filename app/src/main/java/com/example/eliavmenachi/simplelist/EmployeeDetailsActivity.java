@@ -46,7 +46,7 @@ public class EmployeeDetailsActivity extends Activity {
 
 
         progressBar.setVisibility(View.VISIBLE);
-        Model.getInstance().getStudentById(id,new Model.GetStudent() {
+        Model.getInstance().getStudentById(id,new Model.GetEmployee() {
             @Override
             public void onResult(Employee student) {
                 name.setText(student.getName());

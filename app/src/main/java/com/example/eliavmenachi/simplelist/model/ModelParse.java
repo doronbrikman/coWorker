@@ -31,45 +31,42 @@ public class ModelParse {
     }
 
     public List<Employee> getAllEmployees() {
-        ParseQuery q = new ParseQuery("company");
-        List<Employee> students = new LinkedList<Employee>();
-        ParseQuery query = new ParseQuery("employee");
+        List<Employee> employees = new LinkedList<Employee>();
+        ParseQuery query = new ParseQuery("Employee");
         try {
             List<ParseObject> data = query.find();
             for (ParseObject po : data) {
-                String id = po.getString("empid");
+                String id = po.getString("serialId");
                 String name = po.getString("name");
                 String address = po.getString("address");
                 String imageName = po.getString("imageName");
                 String phone = po.getString("phone");
                 String dep = po.getString("department");
-                String comp = po.getString("company");
                 boolean atWork = po.getBoolean("atWork");
                 Employee emp = new Employee(id, name, address, imageName, phone, dep, atWork);
-                students.add(emp);
+                employees.add(emp);
             }
         } catch (ParseException e) {
             e.printStackTrace();
-            return students;
+            return employees;
         }
-        return students;
+        return employees;
     }
 
-    public void getStudentById(String id, final Model.GetStudent listener) {
-        ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("student");
-        query.whereEqualTo("stid", id);
+    public void getStudentById(String id, final Model.GetEmployee listener) {
+        ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Employee");
+        query.whereEqualTo("serialId", id);
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> parseObjects, ParseException e) {
                 Employee emp = null;
                 if (e == null && parseObjects.size() > 0) {
                     ParseObject po = parseObjects.get(0);
-                    String id = po.getString("empid");
+                    String id = po.getString("serialId");
                     String name = po.getString("name");
                     String address = po.getString("address");
                     String imageName = po.getString("imageName");
                     String dep = po.getString("department");
-                    String comp = po.getString("company");
                     String phone = po.getString("phone");
                     boolean atWork = po.getBoolean("atWork");
                     emp = new Employee(id, name, address, imageName, phone, dep, atWork);
@@ -81,13 +78,15 @@ public class ModelParse {
 
 
     public void add(Employee emp) {
-        ParseObject empObject = new ParseObject("employee");
-        empObject.put("empid", emp.id);
+        ParseObject empObject = new ParseObject("Employee");
+        empObject.put("serialId", emp.id);
         empObject.put("name", emp.name);
         empObject.put("address", emp.address);
         //empObject.put("imageName", emp.imageName);
         empObject.put("phone", emp.phone);
         empObject.put("department", emp.department);
+        empObject.put("companyId",
+                ((ParseObject) ParseUser.getCurrentUser().get("companyId")).getObjectId());
         empObject.put("atWork", emp.isAtWork);
 
         try {
@@ -101,7 +100,7 @@ public class ModelParse {
         ParseObject pstObject = new ParseObject("Post");
         pstObject.put("postComment", post.postComment);
         pstObject.put("postTitle", post.postTitle);
-        pstObject.put("company", ((ParseObject)ParseUser.getCurrentUser().get("companyId")).getObjectId().toString());
+        pstObject.put("company", ((ParseObject) ParseUser.getCurrentUser().get("companyId")).getObjectId().toString());
 
         try {
             pstObject.save();
@@ -110,50 +109,37 @@ public class ModelParse {
         }
     }
 
-    public void getAllCompaniesAsynch(final Model.GetCompaniesListener listener) {
+    public void getAllEmployeesAsynch(final Model.GetEmployeeListener listener) {
         ParseUser currentUser = ParseUser.getCurrentUser();
-        ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Company");
-        query.whereEqualTo("objectId", ((ParseObject) currentUser.get("companyId")).getObjectId());
+        String companyId = ((ParseObject) currentUser.get("companyId")).getObjectId();
+
+        ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Employee");
+        query.whereEqualTo("companyId", companyId);
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> parseObjects, ParseException e) {
-                List<Company> companies = new LinkedList<Company>();
-
+                List<Employee> emps = new LinkedList<Employee>();
                 if (e == null) {
-                    List<Employee> emps = new LinkedList<Employee>();
-                    for (ParseObject co : parseObjects) {
-                        String id = co.getObjectId();
-                        String name = co.getString("name");
-                        JSONArray jsonMainArr = co.getJSONArray("employees");
-                        for (int i = 0; i < jsonMainArr.length(); i++) {
-                            JSONObject po = null;
-                            try {
-                                po = jsonMainArr.getJSONObject(i);
-                                String eid = po.getString("id");
-                                String ename = po.getString("name");
-                                String address = po.getString("address");
-                                String imageName = po.getString("imageName");
-                                String phone = po.getString("phone");
-                                String dep = po.getString("department");
-                                boolean atWork = po.getBoolean("atWork");
-                                Employee emp = new Employee(eid, ename, address, imageName, phone, dep, atWork);
-                                emps.add(emp);
-                            } catch (JSONException e1) {
-                                e1.printStackTrace();
-                            }
-                        }
-                        Company com = new Company(id, name, emps);
-                        companies.add(com);
+                    for (ParseObject em : parseObjects) {
+                        String eid = em.getString("serialId");
+                        String ename = em.getString("name");
+                        String address = em.getString("address");
+                        String imageName = em.getString("imageName");
+                        String phone = em.getString("phone");
+                        String dep = em.getString("department");
+                        boolean atWork = em.getBoolean("atWork");
+                        Employee emp = new Employee(eid, ename, address, imageName, phone, dep, atWork);
+                        emps.add(emp);
                     }
                 }
-                listener.onResult(companies);
+                listener.onResult(emps);
             }
         });
     }
 
     public void getCompaniesPostsAsync(final Model.GetPostsListener listener) {
         ParseUser currentUser = ParseUser.getCurrentUser();
-        String companyId = ((ParseObject)currentUser.get("companyId")).getObjectId();
+        String companyId = ((ParseObject) currentUser.get("companyId")).getObjectId();
 
         ParseQuery<ParseObject> queryPosts = new ParseQuery<ParseObject>("Post");
         queryPosts.whereEqualTo("company", companyId);

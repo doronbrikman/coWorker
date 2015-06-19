@@ -15,6 +15,7 @@ import android.widget.ImageView;
 
 import com.example.eliavmenachi.simplelist.model.Model;
 import com.example.eliavmenachi.simplelist.model.Employee;
+import com.parse.ParseUser;
 
 
 import java.text.SimpleDateFormat;
@@ -30,6 +31,7 @@ public class NewEmployeeActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_student);
 
+        ParseUser currentUser = ParseUser.getCurrentUser();
 
         final EditText idEt = (EditText) findViewById(R.id.nsIdEditText);
         final EditText nameEt = (EditText) findViewById(R.id.nsNameEditText);
