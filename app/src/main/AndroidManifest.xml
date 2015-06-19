@@ -40,6 +40,10 @@
             android:label="@string/title_activity_login"
             android:windowSoftInputMode="adjustResize|stateVisible" >
         </activity>
+        <activity
+            android:name=".WorkersListActivity"
+            android:label="@string/title_activity_workers_list" >
+        </activity>
     </application>
 
 </manifest>
