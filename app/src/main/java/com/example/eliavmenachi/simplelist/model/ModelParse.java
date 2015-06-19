@@ -122,7 +122,6 @@ public class ModelParse {
                                 String imageName = po.getString("imageName");
                                 String phone = po.getString("phone");
                                 String dep = po.getString("department");
-                                String comp = po.getString("company");
                                 boolean atWork = po.getBoolean("atWork");
                                 Employee emp = new Employee(eid, ename, address, imageName, phone, dep, atWork);
                                 emps.add(emp);

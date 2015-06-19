@@ -32,7 +32,6 @@ import com.parse.ParseObject;
 import java.util.LinkedList;
 import java.util.List;
 
-
 public class MainActivity extends Activity {
     ListView myList;
     List<Employee> data = new LinkedList<Employee>();
