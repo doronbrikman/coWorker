@@ -30,6 +30,7 @@ public class companyFeedActivity extends Activity {
     List<Post> data = new LinkedList<Post>();
     PostAdapter adapter;
     ProgressBar progressBar;
+    static final int BACK_FROM_NEW_POST_ACTIVITY = 1;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -74,6 +75,23 @@ public class companyFeedActivity extends Activity {
         myList.setAdapter(adapter);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        // Check which request we're responding to
+        if (requestCode == BACK_FROM_NEW_POST_ACTIVITY) {
+            // Make sure the request was successful
+            if (resultCode == RESULT_OK) {
+                Model.getInstance().getAllPostsByCompanyAsync(new Model.GetPostsListener() {
+                    @Override
+                    public void onResult(List<Post> posts) {
+                        progressBar.setVisibility(View.GONE);
+                        data = posts;
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+            }
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -89,9 +107,11 @@ public class companyFeedActivity extends Activity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch(id){
+            case R.id.action_addPost:
+                Intent intent = new Intent(getApplicationContext(),NewPostActivity.class);
+                startActivityForResult(intent,BACK_FROM_NEW_POST_ACTIVITY);
+                return true;
         }
 
         return super.onOptionsItemSelected(item);

@@ -1,11 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.example.eliavmenachi.simplelist.companyFeedActivity">
-    <item android:id="@+id/action_addPost"
-        android:icon="@android:drawable/ic_input_add"
-        android:title="Add Post"
-        app:showAsAction="always" />
+    tools:context="com.example.eliavmenachi.simplelist.NewPostActivity">
     <item android:id="@+id/action_settings" android:title="@string/action_settings"
         android:orderInCategory="100" app:showAsAction="never" />
 </menu>

@@ -39,8 +39,6 @@ public class MainActivity extends Activity {
     CustomAdapter adapter;
     ProgressBar progressBar;
 
-    static final int NEW_STUDENT_REQUEST = 1;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,7 +61,7 @@ public class MainActivity extends Activity {
             ParseUser currentUser = ParseUser.getCurrentUser();
             if (currentUser != null) {
                 // Send logged in users to Welcome.class
-                Intent intent = new Intent(MainActivity.this, WorkersListActivity.class);
+                Intent intent = new Intent(MainActivity.this, companyFeedActivity.class);
                 startActivity(intent);
                 finish();
             } else {
@@ -77,38 +75,10 @@ public class MainActivity extends Activity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        // Check which request we're responding to
-        if (requestCode == NEW_STUDENT_REQUEST) {
-            // Make sure the request was successful
-            if (resultCode == RESULT_OK) {
-                data = Model.getInstance().getAllStudents();
-                adapter.notifyDataSetChanged();
-            }
-        }
-    }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        switch(id){
-            case R.id.action_add:
-                Intent intent = new Intent(getApplicationContext(),NewEmployeeActivity.class);
-                startActivityForResult(intent,NEW_STUDENT_REQUEST);
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     class CustomAdapter extends BaseAdapter{
