@@ -7,7 +7,6 @@ public class Employee {
     String imageName;
     String phone;
     String department;
-    String companyId;
     boolean isAtWork;
 
     public Employee(String id,
@@ -16,7 +15,6 @@ public class Employee {
                     String imageName,
                     String phone,
                     String department,
-                    String companyId,
                     boolean isAtWork) {
         this.id = id;
         this.name = name;
@@ -24,7 +22,6 @@ public class Employee {
         this.imageName = imageName;
         this.phone = phone;
         this.department = department;
-        this.companyId = companyId;
         this.isAtWork = isAtWork;
     }
 
@@ -52,10 +49,6 @@ public class Employee {
         return department;
     }
 
-    public String getCompanyId() {
-        return companyId;
-    }
-
     public boolean isAtWork() {
         return isAtWork;
     }
@@ -78,10 +71,6 @@ public class Employee {
 
     public void setDepartment(String department) {
         this.department = department;
-    }
-
-    public void setCompanyId(String companyId) {
-        this.companyId = companyId;
     }
 
     public void setAtWork(boolean isAtWork) {

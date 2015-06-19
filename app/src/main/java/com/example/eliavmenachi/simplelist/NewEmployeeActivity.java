@@ -24,6 +24,7 @@ import java.util.Date;
 public class NewEmployeeActivity extends Activity {
     ImageView imageView;
     String imageFileName = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +35,7 @@ public class NewEmployeeActivity extends Activity {
         final EditText nameEt = (EditText) findViewById(R.id.nsNameEditText);
         final EditText addressEt = (EditText) findViewById(R.id.nsAddressEditText);
         final EditText phoneEt = (EditText) findViewById(R.id.nsPhoneEditText);
+        final EditText deptEt = (EditText) findViewById(R.id.nsDeptEditText);
         final CheckBox check = (CheckBox) findViewById(R.id.nsCheckBox);
         imageView = (ImageView) findViewById(R.id.nsImageView);
 
@@ -43,10 +45,10 @@ public class NewEmployeeActivity extends Activity {
             public void onClick(View v) {
                 Model.getInstance().add(
                         new Employee(idEt.getText().toString(),
-                                    nameEt.getText().toString(),
+                                nameEt.getText().toString(),
                                 addressEt.getText().toString(),
-                                imageFileName,phoneEt.getText().toString(),
-                                "asd", "asd",
+                                imageFileName, phoneEt.getText().toString(),
+                                deptEt.getText().toString(),
                                 check.isChecked()));
                 Intent resultIntent = new Intent();
                 setResult(Activity.RESULT_OK, resultIntent);
@@ -71,14 +73,16 @@ public class NewEmployeeActivity extends Activity {
             }
         });
     }
+
     static final int REQUEST_IMAGE_CAPTURE = 1;
 
-    private void takingPicture(){
-            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-            }
+    private void takingPicture() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
@@ -87,7 +91,7 @@ public class NewEmployeeActivity extends Activity {
             imageView.setImageBitmap(imageBitmap);
             String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
             imageFileName = "JPEG_" + timeStamp + ".jpeg";
-            Model.getInstance().saveImage(imageBitmap,imageFileName);
+            Model.getInstance().saveImage(imageBitmap, imageFileName);
         }
     }
 

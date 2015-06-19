@@ -41,7 +41,7 @@ public class ModelParse {
                 String dep = po.getString("department");
                 String comp = po.getString("company");
                 boolean atWork = po.getBoolean("atWork");
-                Employee emp = new Employee(id, name, address, imageName, phone, dep, comp, atWork);
+                Employee emp = new Employee(id, name, address, imageName, phone, dep, atWork);
                 students.add(emp);
             }
         } catch (ParseException e) {
@@ -68,7 +68,7 @@ public class ModelParse {
                     String comp = po.getString("company");
                     String phone = po.getString("phone");
                     boolean atWork = po.getBoolean("atWork");
-                    emp = new Employee(id, name, address, imageName, phone, dep, comp, atWork);
+                    emp = new Employee(id, name, address, imageName, phone, dep, atWork);
                 }
                 listener.onResult(emp);
             }
@@ -84,8 +84,8 @@ public class ModelParse {
         //empObject.put("imageName", emp.imageName);
         empObject.put("phone", emp.phone);
         empObject.put("department", emp.department);
-        empObject.put("company", emp.companyId);
         empObject.put("atWork", emp.isAtWork);
+
         try {
             empObject.save();
         } catch (ParseException e) {
@@ -119,7 +119,7 @@ public class ModelParse {
                                 String dep = po.getString("department");
                                 String comp = po.getString("company");
                                 boolean atWork = po.getBoolean("atWork");
-                                Employee emp = new Employee(eid, ename, address, imageName, phone, dep, comp, atWork);
+                                Employee emp = new Employee(eid, ename, address, imageName, phone, dep, atWork);
                                 emps.add(emp);
                             } catch (JSONException e1) {
                                 e1.printStackTrace();
