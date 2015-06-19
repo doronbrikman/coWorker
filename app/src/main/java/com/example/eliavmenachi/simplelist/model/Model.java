@@ -42,6 +42,11 @@ public class Model {
         return model.getAllEmployees();
     }
 
+    public void getAllPostsByCompanyAsync(GetPostsListener listener)
+    {
+        model.getCompaniesPostsAsync(listener);
+    }
+
     public interface GetCompaniesListener{
         public void onResult(List<Company> students);
     }
@@ -62,6 +67,9 @@ public class Model {
         model.add(st);
     }
 
+    public interface GetPostsListener{
+        public void onResult(List<Post> posts);
+    }
 
     public void saveImage(final Bitmap imageBitmap, final String imageName) {
         saveImageToFile(imageBitmap,imageName); // synchronously save image locally

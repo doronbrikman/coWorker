@@ -138,6 +138,29 @@ public class ModelParse {
         });
     }
 
+    public void getCompaniesPostsAsync(final Model.GetPostsListener listener) {
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        String companyId = ((ParseObject)currentUser.get("companyId")).getObjectId();
+
+        ParseQuery<ParseObject> queryPosts = new ParseQuery<ParseObject>("Post");
+        queryPosts.whereEqualTo("company", companyId);
+        queryPosts.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> parseObjects, ParseException e) {
+                List<Post> posts = new LinkedList<Post>();
+                if (e == null) {
+                    for (ParseObject co : parseObjects) {
+                        String id = co.getObjectId();
+                        String post = co.getString("postComment");
+                        String title = co.getString("postTitle");
+                        Post p = new Post(id, post, title);
+                        posts.add(p);
+                    }
+                }
+                listener.onResult(posts);
+            }
+        });
+    }
 
     public void saveImage(Bitmap imageBitmap, String imageName) {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
