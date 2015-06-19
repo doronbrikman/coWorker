@@ -97,6 +97,19 @@ public class ModelParse {
         }
     }
 
+    public void addPost(Post post) {
+        ParseObject pstObject = new ParseObject("Post");
+        pstObject.put("postComment", post.postComment);
+        pstObject.put("postTitle", post.postTitle);
+        pstObject.put("company", ((ParseObject)ParseUser.getCurrentUser().get("companyId")).getObjectId().toString());
+
+        try {
+            pstObject.save();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void getAllCompaniesAsynch(final Model.GetCompaniesListener listener) {
         ParseUser currentUser = ParseUser.getCurrentUser();
         ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Company");

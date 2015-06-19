@@ -48,6 +48,10 @@
             android:name=".companyFeedActivity"
             android:label="@string/title_activity_company_feed" >
         </activity>
+        <activity
+            android:name=".NewPostActivity"
+            android:label="@string/title_activity_new_post" >
+        </activity>
     </application>
 
 </manifest>

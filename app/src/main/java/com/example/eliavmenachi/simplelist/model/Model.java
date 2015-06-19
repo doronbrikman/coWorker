@@ -67,6 +67,10 @@ public class Model {
         model.add(st);
     }
 
+    public void addPost(Post pt){
+        model.addPost(pt);
+    }
+
     public interface GetPostsListener{
         public void onResult(List<Post> posts);
     }
