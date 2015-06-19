@@ -19,21 +19,25 @@
             android:id="@+id/username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
+            android:background="@drawable/edittext_top_bg"
             android:padding="10dp"
             android:hint="Username"
-            android:textColorHint="#cccccc"></EditText>
+            android:textColorHint="#cccccc"
+            android:textColor="#000000"
+            android:drawableLeft="@mipmap/user"/>
 
         <EditText
             android:id="@+id/password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
+            android:background="@drawable/edittext_bottom_bg"
             android:layout_marginTop="-2dp"
             android:padding="10dp"
             android:hint="Password"
             android:textColorHint="#cccccc"
-            android:password="true"></EditText>
+            android:textColor="#000000"
+            android:password="true"
+            android:drawableLeft="@mipmap/password"/>
 
         <Button
             android:id="@+id/login"
