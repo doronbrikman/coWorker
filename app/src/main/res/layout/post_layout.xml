@@ -18,7 +18,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Medium Text"
+        android:text="Small Text"
         android:id="@+id/postText"
         android:layout_below="@+id/titleText"
         android:layout_margin="10px" />

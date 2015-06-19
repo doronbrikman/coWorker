@@ -31,6 +31,7 @@ public class companyFeedActivity extends Activity {
     PostAdapter adapter;
     ProgressBar progressBar;
     static final int BACK_FROM_NEW_POST_ACTIVITY = 1;
+    //static final int BACK_FROM_EMPLOYEES_VIEW = 2;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -97,6 +98,12 @@ public class companyFeedActivity extends Activity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_company_feed, menu);
+
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        boolean b = currentUser.getBoolean("admin");
+
+        menu.getItem(0).setVisible(b);
+
         return true;
     }
 
@@ -106,11 +113,16 @@ public class companyFeedActivity extends Activity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+        Intent intent;
 
         switch(id){
             case R.id.action_addPost:
-                Intent intent = new Intent(getApplicationContext(),NewPostActivity.class);
+                intent = new Intent(getApplicationContext(),NewPostActivity.class);
                 startActivityForResult(intent,BACK_FROM_NEW_POST_ACTIVITY);
+                return true;
+            case R.id.action_employeesList:
+                intent = new Intent(getApplicationContext(),WorkersListActivity.class);
+                startActivity(intent);
                 return true;
         }
 

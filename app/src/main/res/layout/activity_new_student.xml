@@ -44,7 +44,6 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
-        android:text="Name"
         android:ems="10"
         android:id="@+id/nsNameEditText"
         android:layout_below="@+id/nsImageView"
