@@ -23,7 +23,7 @@ public class LoginActivity extends Activity {
     EditText password;
     EditText username;
 
-    /** Called when the activity is first created. */
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Get the view from main.xml
@@ -50,7 +50,7 @@ public class LoginActivity extends Activity {
                                     // If user exist and authenticated, send user to Welcome.class
                                     Intent intent = new Intent(
                                             LoginActivity.this,
-                                            WorkersListActivity.class);
+                                            companyFeedActivity.class);
                                     startActivity(intent);
                                     Toast.makeText(getApplicationContext(),
                                             "Successfully Logged in",

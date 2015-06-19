@@ -44,6 +44,10 @@
             android:name=".WorkersListActivity"
             android:label="@string/title_activity_workers_list" >
         </activity>
+        <activity
+            android:name=".companyFeedActivity"
+            android:label="@string/title_activity_company_feed" >
+        </activity>
     </application>
 
 </manifest>

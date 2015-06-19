@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Button;
 import android.widget.Toast;
 import com.parse.ParseAnonymousUtils;
 import com.parse.ParseUser;
@@ -38,6 +39,7 @@ public class MainActivity extends Activity {
     Company company;
     CustomAdapter adapter;
     ProgressBar progressBar;
+
     static final int NEW_STUDENT_REQUEST = 1;
 
     @Override
@@ -62,7 +64,7 @@ public class MainActivity extends Activity {
             ParseUser currentUser = ParseUser.getCurrentUser();
             if (currentUser != null) {
                 // Send logged in users to Welcome.class
-                Intent intent = new Intent(MainActivity.this, WorkersListActivity.class);
+                Intent intent = new Intent(MainActivity.this, companyFeedActivity.class);
                 startActivity(intent);
                 finish();
             } else {
