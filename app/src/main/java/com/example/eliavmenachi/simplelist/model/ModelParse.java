@@ -12,6 +12,7 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseACL;
 import com.parse.ParseUser;
+import com.parse.SignUpCallback;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -82,6 +83,9 @@ public class ModelParse {
 
 
     public void add(Employee emp) {
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        String companyId = ((ParseObject) currentUser.get("companyId")).getObjectId();
+
         ParseObject empObject = new ParseObject("Employee");
         empObject.put("serialId", emp.id);
         empObject.put("name", emp.name);
@@ -89,8 +93,7 @@ public class ModelParse {
         //empObject.put("imageName", emp.imageName);
         empObject.put("phone", emp.phone);
         empObject.put("department", emp.department);
-        empObject.put("companyId",
-                ((ParseObject) ParseUser.getCurrentUser().get("companyId")).getObjectId());
+        empObject.put("companyId", companyId);
         empObject.put("atWork", emp.isAtWork);
 
         try {
