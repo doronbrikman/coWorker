@@ -112,8 +112,10 @@ public class NewEmployeeActivity extends Activity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.action_logout) {
+            ParseUser.logOut();
+            Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);

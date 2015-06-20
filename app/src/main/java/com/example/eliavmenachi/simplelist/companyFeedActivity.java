@@ -124,6 +124,10 @@ public class companyFeedActivity extends Activity {
                 intent = new Intent(getApplicationContext(),WorkersListActivity.class);
                 startActivity(intent);
                 return true;
+            case R.id.action_logout:
+                ParseUser.logOut();
+                intent = new Intent(getApplicationContext(),LoginActivity.class);
+                startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);

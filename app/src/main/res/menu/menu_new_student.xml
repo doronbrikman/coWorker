@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.eliavmenachi.simplelist.NewStudentActivity">
     <item
-        android:id="@+id/action_settings"
-        android:title="@string/action_settings"
+        android:id="@+id/action_logout"
+        android:title="Logout"
         android:orderInCategory="100"
         android:showAsAction="never" />
 </menu>

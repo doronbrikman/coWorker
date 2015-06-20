@@ -111,6 +111,11 @@ public class WorkersListActivity extends Activity {
                 Intent intent = new Intent(getApplicationContext(),NewEmployeeActivity.class);
                 startActivityForResult(intent,BACK_FROM_NEW_EMPLOYEE_ACTIVITY);
                 return true;
+            case R.id.action_logout:
+                ParseUser.logOut();
+                intent = new Intent(getApplicationContext(),LoginActivity.class);
+                startActivity(intent);
+                return true;
         }
 
         return super.onOptionsItemSelected(item);

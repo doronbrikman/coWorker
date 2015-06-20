@@ -46,7 +46,16 @@
             android:padding="10dp"
             android:layout_margin="4dp"
             android:text="Sign In"
-
             />
+
+        <Button
+            android:id="@+id/create"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:layout_margin="4dp"
+            android:text="Create Company"
+            />
+
     </LinearLayout>
 </RelativeLayout>
