@@ -3,6 +3,7 @@ package com.example.eliavmenachi.simplelist;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -30,12 +31,13 @@ import com.parse.ParseUser;
 import java.util.LinkedList;
 import java.util.List;
 
-public class WorkersListActivity extends Activity {
+public class WorkersListActivity extends Activity implements SwipeRefreshLayout.OnRefreshListener {
     static final int BACK_FROM_NEW_EMPLOYEE_ACTIVITY = 1;
     ListView myList;
     List<Employee> data = new LinkedList<Employee>();
     CustomAdapter adapter;
     ProgressBar progressBar;
+    SwipeRefreshLayout swipeLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +72,13 @@ public class WorkersListActivity extends Activity {
                 adapter.notifyDataSetChanged();
             }
         });
+
+        swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
+        swipeLayout.setOnRefreshListener(this);
+        swipeLayout.setColorScheme(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
     }
 
     @Override
@@ -124,6 +133,18 @@ public class WorkersListActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onRefresh() {
+        Model.getInstance().getAllStudentsAsynch(new Model.GetEmployeeListener() {
+            @Override
+            public void onResult(List<Employee> employees) {
+                swipeLayout.setRefreshing(false);
+                data = employees;
+                adapter.notifyDataSetChanged();
+            }
+        });
     }
 
     class CustomAdapter extends BaseAdapter {

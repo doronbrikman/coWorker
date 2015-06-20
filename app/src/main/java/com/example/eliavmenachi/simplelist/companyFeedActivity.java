@@ -3,6 +3,7 @@ package com.example.eliavmenachi.simplelist;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,14 +25,14 @@ import java.util.LinkedList;
 import java.util.List;
 
 
-public class companyFeedActivity extends Activity {
-    Button logout;
+public class companyFeedActivity extends Activity implements SwipeRefreshLayout.OnRefreshListener {
     ListView myList;
     List<Post> data = new LinkedList<Post>();
     PostAdapter adapter;
     ProgressBar progressBar;
     static final int BACK_FROM_NEW_POST_ACTIVITY = 1;
     //static final int BACK_FROM_EMPLOYEES_VIEW = 2;
+    SwipeRefreshLayout swipeLayout;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -48,18 +49,6 @@ public class companyFeedActivity extends Activity {
         TextView txtuser = (TextView) findViewById(R.id.txtuser);
 
         txtuser.setText("You are logged in as " + struser);
-        logout = (Button) findViewById(R.id.logout);
-
-        logout.setOnClickListener(new OnClickListener() {
-            public void onClick(View arg0) {
-                // Logout current user
-                ParseUser.logOut();
-                Intent intent = new Intent(
-                        companyFeedActivity.this,
-                        LoginActivity.class);
-                startActivity(intent);
-            }
-        });
 
         Model.getInstance().getAllPostsByCompanyAsync(new Model.GetPostsListener() {
             @Override
@@ -74,6 +63,13 @@ public class companyFeedActivity extends Activity {
 
         adapter = new PostAdapter();
         myList.setAdapter(adapter);
+
+        swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
+        swipeLayout.setOnRefreshListener(this);
+        swipeLayout.setColorScheme(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
     }
 
     @Override
@@ -131,6 +127,18 @@ public class companyFeedActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onRefresh() {
+        Model.getInstance().getAllPostsByCompanyAsync(new Model.GetPostsListener() {
+            @Override
+            public void onResult(List<Post> posts) {
+                swipeLayout.setRefreshing(false);
+                data = posts;
+                adapter.notifyDataSetChanged();
+            }
+        });
     }
 
     class PostAdapter extends BaseAdapter {
