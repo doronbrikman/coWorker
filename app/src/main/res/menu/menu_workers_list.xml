@@ -2,10 +2,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.eliavmenachi.simplelist.WorkersListActivity">
-    <item android:id="@+id/action_add"
+    <item
+        android:id="@+id/action_add"
         android:icon="@android:drawable/ic_input_add"
         android:title="Add"
-        app:showAsAction="always" />
-    <item android:id="@+id/action_logout" android:title="Logout"
-        android:orderInCategory="100" app:showAsAction="never" />
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_post"
+        android:title="Feed" />
+    <item
+        android:id="@+id/action_logout"
+        android:orderInCategory="100"
+        android:title="Logout"
+        app:showAsAction="never" />
 </menu>

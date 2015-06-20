@@ -1,10 +1,8 @@
 package com.example.eliavmenachi.simplelist;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,28 +16,20 @@ import com.example.eliavmenachi.simplelist.model.Model;
 import com.example.eliavmenachi.simplelist.model.Employee;
 import com.parse.ParseUser;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-
 
 public class EmployeeDetailsActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_student_details);
+        setContentView(R.layout.activity_employee_details);
         final TextView name = (TextView) findViewById(R.id.sdName);
         final TextView idtv = (TextView) findViewById(R.id.sdId);
         final TextView phone = (TextView) findViewById(R.id.sdPhone);
         final TextView address = (TextView) findViewById(R.id.sdAddress);
+        final TextView department = (TextView) findViewById(R.id.sdDepartment);
         final ImageView image = (ImageView) findViewById(R.id.sdImage);
-        final CheckBox check = (CheckBox) findViewById(R.id.sdChecked);
+        final CheckBox check = (CheckBox) findViewById(R.id.sdAtWork);
         final ProgressBar progressBar = (ProgressBar) findViewById(R.id.sdProgressBar);
         final ProgressBar imageProgressBar = (ProgressBar) findViewById(R.id.sdImageProgressBar);
         Intent intent = getIntent();
@@ -49,15 +39,16 @@ public class EmployeeDetailsActivity extends Activity {
         progressBar.setVisibility(View.VISIBLE);
         Model.getInstance().getStudentById(id,new Model.GetEmployee() {
             @Override
-            public void onResult(Employee student) {
-                name.setText(student.getName());
-                idtv.setText(student.getId());
-                address.setText(student.getAddress());
-                phone.setText(student.getAddress());
-                check.setChecked(student.isAtWork());
-                if(student.getImageName() != null){
+            public void onResult(Employee employee) {
+                name.setText(employee.getName());
+                idtv.setText(employee.getId());
+                address.setText(employee.getAddress());
+                phone.setText(employee.getAddress());
+                department.setText(employee.getDepartment());
+                check.setChecked(employee.isAtWork());
+                if(employee.getImageName() != null){
                     imageProgressBar.setVisibility(View.VISIBLE);
-                    Model.getInstance().loadImage(student.getImageName(),new Model.LoadImageListener() {
+                    Model.getInstance().loadImage(employee.getImageName(),new Model.LoadImageListener() {
                         @Override
                         public void onResult(Bitmap imageBmp) {
                             if (image != null) {

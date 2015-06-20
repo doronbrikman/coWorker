@@ -105,11 +105,16 @@ public class WorkersListActivity extends Activity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+        Intent intent;
 
         switch(id){
             case R.id.action_add:
-                Intent intent = new Intent(getApplicationContext(),NewEmployeeActivity.class);
+                intent = new Intent(getApplicationContext(),NewEmployeeActivity.class);
                 startActivityForResult(intent,BACK_FROM_NEW_EMPLOYEE_ACTIVITY);
+                return true;
+            case R.id.action_post:
+                intent = new Intent(getApplicationContext(), companyFeedActivity.class);
+                startActivity(intent);
                 return true;
             case R.id.action_logout:
                 ParseUser.logOut();
