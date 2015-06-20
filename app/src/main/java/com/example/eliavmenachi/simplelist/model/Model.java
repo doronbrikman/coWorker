@@ -60,7 +60,7 @@ public class Model {
     }
 
     public void getStudentById(String id,GetEmployee listener){
-        model.getStudentById(id,listener);
+        model.getEmployeeById(id,listener);
     }
 
     public void add(Employee st){

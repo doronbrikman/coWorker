@@ -9,10 +9,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.eliavmenachi.simplelist.model.Employee;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
+
+import java.util.List;
 
 public class LoginActivity extends Activity {
     // Declare Variables
@@ -57,10 +62,43 @@ public class LoginActivity extends Activity {
                                             Toast.LENGTH_LONG).show();
                                     finish();
                                 } else {
-                                    Toast.makeText(
-                                            getApplicationContext(),
-                                            "No such user exist, please signup",
-                                            Toast.LENGTH_LONG).show();
+                                    ParseQuery query = new ParseQuery("Employee");
+                                    query.whereEqualTo("name", usernametxt);
+
+                                    try {
+                                        List<ParseObject> data = query.find();
+
+                                        if (!data.isEmpty()) {
+                                            ParseUser newUser = new ParseUser();
+                                            newUser.setUsername(usernametxt);
+                                            newUser.setPassword(passwordtxt);
+                                            newUser.setEmail(usernametxt + "@asd.com");
+                                            newUser.put("companyId",
+                                                    data.get(0).get("companyId").toString());
+                                            newUser.put("admin", false);
+
+                                            newUser.signUpInBackground(new SignUpCallback() {
+                                                public void done(ParseException e) {
+                                                    if (e == null) {
+                                                        Intent intent = new Intent(
+                                                                LoginActivity.this,
+                                                                companyFeedActivity.class);
+                                                        startActivity(intent);
+                                                        Toast.makeText(getApplicationContext(),
+                                                                "Successfully Logged in",
+                                                                Toast.LENGTH_LONG).show();
+                                                    }
+                                                }
+                                            });
+                                        } else {
+                                            Toast.makeText(
+                                                    getApplicationContext(),
+                                                    "No such user exist, please signup",
+                                                    Toast.LENGTH_LONG).show();
+                                        }
+                                    } catch (ParseException ex) {
+                                        ex.printStackTrace();
+                                    }
                                 }
                             }
                         });

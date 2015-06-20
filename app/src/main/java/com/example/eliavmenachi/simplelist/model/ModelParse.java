@@ -33,7 +33,7 @@ public class ModelParse {
 
     public List<Employee> getAllEmployees() {
         ParseUser currentUser = ParseUser.getCurrentUser();
-        String companyId = ((ParseObject) currentUser.get("companyId")).getObjectId();
+        String companyId = currentUser.get("companyId").toString();
         List<Employee> employees = new LinkedList<Employee>();
 
         ParseQuery query = new ParseQuery("Employee");
@@ -58,7 +58,7 @@ public class ModelParse {
         return employees;
     }
 
-    public void getStudentById(String id, final Model.GetEmployee listener) {
+    public void getEmployeeById(String id, final Model.GetEmployee listener) {
         ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Employee");
         query.whereEqualTo("serialId", id);
         query.findInBackground(new FindCallback<ParseObject>() {
@@ -84,7 +84,7 @@ public class ModelParse {
 
     public void add(Employee emp) {
         ParseUser currentUser = ParseUser.getCurrentUser();
-        String companyId = ((ParseObject) currentUser.get("companyId")).getObjectId();
+        String companyId = currentUser.get("companyId").toString();
 
         ParseObject empObject = new ParseObject("Employee");
         empObject.put("serialId", emp.id);
@@ -107,7 +107,7 @@ public class ModelParse {
         ParseObject pstObject = new ParseObject("Post");
         pstObject.put("postComment", post.postComment);
         pstObject.put("postTitle", post.postTitle);
-        pstObject.put("company", ((ParseObject) ParseUser.getCurrentUser().get("companyId")).getObjectId().toString());
+        pstObject.put("company", ParseUser.getCurrentUser().get("companyId").toString());
 
         try {
             pstObject.save();
@@ -118,7 +118,7 @@ public class ModelParse {
 
     public void getAllEmployeesAsynch(final Model.GetEmployeeListener listener) {
         ParseUser currentUser = ParseUser.getCurrentUser();
-        String companyId = ((ParseObject) currentUser.get("companyId")).getObjectId();
+        String companyId = currentUser.get("companyId").toString();
 
         ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Employee");
         query.whereEqualTo("companyId", companyId);
@@ -146,7 +146,7 @@ public class ModelParse {
 
     public void getCompaniesPostsAsync(final Model.GetPostsListener listener) {
         ParseUser currentUser = ParseUser.getCurrentUser();
-        String companyId = ((ParseObject) currentUser.get("companyId")).getObjectId();
+        String companyId = currentUser.get("companyId").toString();
 
         ParseQuery<ParseObject> queryPosts = new ParseQuery<ParseObject>("Post");
         queryPosts.whereEqualTo("company", companyId);
