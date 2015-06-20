@@ -50,6 +50,8 @@ public class WorkersListActivity extends Activity implements SwipeRefreshLayout.
 
         myList = (ListView) findViewById(R.id.listView);
 
+        setTitle("Employees");
+
         adapter = new CustomAdapter();
         myList.setAdapter(adapter);
 

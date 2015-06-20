@@ -28,6 +28,8 @@ public class NewPostActivity extends Activity {
         final EditText title = (EditText) findViewById(R.id.txtPostTitle);
         final EditText post = (EditText) findViewById(R.id.txtPostComment);
 
+        setTitle("New post");
+
         Button save = (Button) findViewById(R.id.savePostButton);
         save.setOnClickListener(new View.OnClickListener() {
             @Override

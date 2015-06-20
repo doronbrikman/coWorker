@@ -35,6 +35,7 @@ public class EmployeeDetailsActivity extends Activity {
         Intent intent = getIntent();
         String id = intent.getExtras().getString("id");
 
+        setTitle("Employee details");
 
         progressBar.setVisibility(View.VISIBLE);
         Model.getInstance().getStudentById(id,new Model.GetEmployee() {

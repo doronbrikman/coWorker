@@ -50,6 +50,8 @@ public class companyFeedActivity extends Activity implements SwipeRefreshLayout.
 
         txtuser.setText("You are logged in as " + struser);
 
+        setTitle("News Feed");
+
         Model.getInstance().getAllPostsByCompanyAsync(new Model.GetPostsListener() {
             @Override
             public void onResult(List<Post> posts) {

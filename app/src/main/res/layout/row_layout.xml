@@ -31,7 +31,7 @@
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="25sp"
         android:text="Large Text"
         android:id="@+id/nameTextView"
         android:layout_alignParentTop="true"
@@ -42,7 +42,7 @@
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textSize="18sp"
         android:text="Medium Text"
         android:id="@+id/idTextView"
         android:layout_below="@+id/nameTextView"

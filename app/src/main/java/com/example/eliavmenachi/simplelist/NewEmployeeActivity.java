@@ -41,6 +41,8 @@ public class NewEmployeeActivity extends Activity {
         final CheckBox check = (CheckBox) findViewById(R.id.nsCheckBox);
         imageView = (ImageView) findViewById(R.id.nsImageView);
 
+        setTitle("New employee");
+
         Button save = (Button) findViewById(R.id.saveButton);
         save.setOnClickListener(new View.OnClickListener() {
             @Override
