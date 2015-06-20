@@ -71,6 +71,11 @@ public class Model {
         model.addPost(pt);
     }
 
+    public void addCompany(Company cmp, String adminName, String adminPass){
+        String newCompanyId = model.addCompany(cmp);
+        model.createAdminForCompany(newCompanyId, adminName, adminPass);
+    }
+
     public interface GetPostsListener{
         public void onResult(List<Post> posts);
     }

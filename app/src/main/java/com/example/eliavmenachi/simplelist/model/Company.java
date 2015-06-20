@@ -7,6 +7,7 @@ import java.util.List;
 public class Company {
     String id;
     String name;
+
 //    location
     List<Employee> employees;
 
@@ -14,6 +15,10 @@ public class Company {
         this.id = id;
         this.name = name;
         this.employees = new LinkedList<Employee>();
+    }
+
+    public Company(String name) {
+        this.name = name;
     }
 
     public Company(String id, String name, List<Employee> employees) {

@@ -22,6 +22,7 @@ import java.util.List;
 public class LoginActivity extends Activity {
     // Declare Variables
     Button loginbutton;
+    Button createCompany;
 
     String usernametxt;
     String passwordtxt;
@@ -36,6 +37,17 @@ public class LoginActivity extends Activity {
         // Locate EditTexts in main.xml
         username = (EditText) findViewById(R.id.username);
         password = (EditText) findViewById(R.id.password);
+
+        createCompany = (Button) findViewById(R.id.create);
+        // Login Button Click Listener
+        createCompany.setOnClickListener(new OnClickListener() {
+            public void onClick(View arg0) {
+                Intent intent = new Intent(LoginActivity.this, CreateCompanyActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
 
         // Locate Buttons in main.xml
         loginbutton = (Button) findViewById(R.id.login);

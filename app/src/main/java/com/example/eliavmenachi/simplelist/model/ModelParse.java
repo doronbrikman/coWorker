@@ -116,6 +116,40 @@ public class ModelParse {
         }
     }
 
+    public String addCompany(Company company) {
+        ParseObject pstObject = new ParseObject("Company");
+        pstObject.put("name", company.getName());
+        //pstObject.put("location", post.postTitle);
+
+        try {
+            pstObject.save();
+            return pstObject.getObjectId();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return pstObject.getObjectId();
+    }
+
+    public void createAdminForCompany(String newCompanyId, String adminName, String adminPass) {
+        ParseUser newAdmin = new ParseUser();
+
+        newAdmin.setUsername(adminName);
+        newAdmin.setPassword(adminPass);
+        newAdmin.put("companyId", newCompanyId);
+        newAdmin.put("admin", true);
+
+        newAdmin.signUpInBackground(new SignUpCallback() {
+            public void done(ParseException e) {
+                if (e == null) {
+                    // Hooray! Let them use the app now.
+                } else {
+                    // Sign up didn't succeed. Look at the ParseException
+                    // to figure out what went wrong
+                }
+            }
+        });
+    }
+
     public void getAllEmployeesAsynch(final Model.GetEmployeeListener listener) {
         ParseUser currentUser = ParseUser.getCurrentUser();
         String companyId = currentUser.get("companyId").toString();

@@ -29,7 +29,7 @@ public class NewEmployeeActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_student);
+        setContentView(R.layout.activity_new_employee);
 
         ParseUser currentUser = ParseUser.getCurrentUser();
 
