@@ -31,8 +31,12 @@ public class ModelParse {
     }
 
     public List<Employee> getAllEmployees() {
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        String companyId = ((ParseObject) currentUser.get("companyId")).getObjectId();
         List<Employee> employees = new LinkedList<Employee>();
+
         ParseQuery query = new ParseQuery("Employee");
+        query.whereEqualTo("companyId", companyId);
         try {
             List<ParseObject> data = query.find();
             for (ParseObject po : data) {
