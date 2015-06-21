@@ -9,11 +9,6 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-
-import com.google.android.gms.common.api.PendingResult;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Status;
-import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import android.view.View;
 import android.widget.Button;
@@ -25,23 +20,10 @@ import android.location.Location;
 
 import com.example.eliavmenachi.simplelist.model.Company;
 import com.example.eliavmenachi.simplelist.model.Model;
-import com.example.eliavmenachi.simplelist.model.Post;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationSettingsRequest;
-import com.google.android.gms.location.LocationSettingsResult;
-import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.gms.maps.model.LatLng;
 
 public class CreateCompanyActivity extends Activity {
-
-    protected GoogleApiClient mGoogleApiClient;
-    protected LocationRequest mLocationRequest;
-    protected LocationSettingsRequest mLocationSettingsRequest;
-    protected static final int REQUEST_CHECK_SETTINGS = 0x1;
-    // The minimum distance to change Updates in meters
-    private static final long MIN_UPDATE_DISTANCE = 10;
-    // The minimum time between updates in milliseconds
-    private static final long MIN_UPDATE_TIME = 1000 * 60;
 
     Location mLastLocation;
 
@@ -50,14 +32,9 @@ public class CreateCompanyActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_company);
 
-        LatLng currLoc = this.getLocation();
-        //GeoPoint goe = this.convert(mLastLocation.getLatitude(), mLastLocation.getLongitude());
-
-
         final EditText adminName = (EditText) findViewById(R.id.txtCompanyAdminName);
         final EditText adminPass = (EditText) findViewById(R.id.txtCompanyAdminPassword);
         final EditText companyName = (EditText) findViewById(R.id.txtCompanyName);
-
 
         Button save = (Button) findViewById(R.id.saveNewCompanyButton);
         save.setOnClickListener(new View.OnClickListener() {
@@ -82,9 +59,23 @@ public class CreateCompanyActivity extends Activity {
                 finish();
             }
         });
+
+        Button locationBtn = (Button) findViewById(R.id.btnSetCompanyLocation);
+        locationBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mLastLocation = getLocation();
+                try {
+                    LatLng geo =  new LatLng(mLastLocation.getLatitude (), mLastLocation.getLongitude ());
+                }
+                catch (NullPointerException e){
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
-    public LatLng getLocation()
+    public Location getLocation()
     {
         // Get the location manager
         LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
@@ -94,59 +85,9 @@ public class CreateCompanyActivity extends Activity {
 
         Criteria criteria = new Criteria();
         String bestProvider = locationManager.getBestProvider(criteria, true);
-        String locationProvider = LocationManager.NETWORK_PROVIDER;
-        Location location1 = locationManager.getLastKnownLocation(locationProvider);
-        Location location = locationManager.getLastKnownLocation(bestProvider);
-        Double lat,lon;
-        try {
-            lat = location.getLatitude ();
-            lon = location.getLongitude ();
-            return new LatLng(lat, lon);
-        }
-        catch (NullPointerException e){
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-   /* @Override
-    public void onResult(LocationSettingsResult locationSettingsResult) {
-        final Status status = locationSettingsResult.getStatus();
-        switch (status.getStatusCode()) {
-            case LocationSettingsStatusCodes.SUCCESS:
-                // NO need to show the dialog;
-                break;
-            case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
-                //  Location settings are not satisfied. Show the user a dialog
-                try {
-                    // Show the dialog by calling startResolutionForResult(), and check the result
-                    // in onActivityResult().
-                    status.startResolutionForResult((Activity)getApplicationContext(), REQUEST_CHECK_SETTINGS);
-                } catch (IntentSender.SendIntentException e) {
-                    //unable to execute request
-                }
-                break;
-            case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
-                // Location settings are inadequate, and cannot be fixed here. Dialog not created
-                break;
-        }
-    }*/
-
-  /* public static GeoPoint convert(double latitude, double longitude)
-    {
-        int lat = (int)(latitude * 1E6);
-        int lng = (int)(longitude * 1E6);
-
-        return new GeoPoint(lat, lng);
-    }
-
-*/
-    protected synchronized void buildGoogleApiClient() {
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                //.addConnectionCallbacks(this)
-                //.addOnConnectionFailedListener(this)
-                .addApi(LocationServices.API)
-                .build();
+        /*String locationProvider = LocationManager.NETWORK_PROVIDER;
+        mLastLocation = locationManager.getLastKnownLocation(locationProvider);*/
+        return locationManager.getLastKnownLocation(bestProvider);
     }
 
     @Override
