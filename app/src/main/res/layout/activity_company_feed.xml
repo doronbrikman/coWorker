@@ -35,11 +35,18 @@
             android:layout_below="@+id/txtwelcome"
             android:layout_centerHorizontal="true" />
 
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Im Here!!!"
+            android:id="@+id/arrival"
+            android:layout_below="@+id/txtuser" />
+
         <ListView
             android:id="@+id/postslistView"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_below="@+id/txtuser" />
+            android:layout_below="@+id/arrival" />
 
     </RelativeLayout>
 </android.support.v4.widget.SwipeRefreshLayout>

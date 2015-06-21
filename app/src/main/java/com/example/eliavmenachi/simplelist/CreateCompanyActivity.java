@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.graphics.Point;
 import android.location.Criteria;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -22,6 +23,8 @@ import com.example.eliavmenachi.simplelist.model.Company;
 import com.example.eliavmenachi.simplelist.model.Model;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.maps.model.LatLng;
+import com.parse.Parse;
+import com.parse.ParseGeoPoint;
 
 public class CreateCompanyActivity extends Activity {
 
@@ -66,7 +69,9 @@ public class CreateCompanyActivity extends Activity {
             public void onClick(View v) {
                 mLastLocation = getLocation();
                 try {
-                    LatLng geo =  new LatLng(mLastLocation.getLatitude (), mLastLocation.getLongitude ());
+                    ParseGeoPoint p = new ParseGeoPoint();
+                    p.setLatitude(mLastLocation.getLatitude ());
+                    p.setLongitude(mLastLocation.getLongitude ());
                 }
                 catch (NullPointerException e){
                     e.printStackTrace();
