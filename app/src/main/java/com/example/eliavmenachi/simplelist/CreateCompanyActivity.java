@@ -22,10 +22,12 @@ import com.example.eliavmenachi.simplelist.model.Company;
 import com.example.eliavmenachi.simplelist.model.Model;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.maps.model.LatLng;
+import com.parse.ParseGeoPoint;
 
 public class CreateCompanyActivity extends Activity {
 
     Location mLastLocation;
+    ParseGeoPoint mCompanyGeo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +43,7 @@ public class CreateCompanyActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Model.getInstance().addCompany(
-                        new Company(companyName.getText().toString()),
+                        new Company(companyName.getText().toString(), mCompanyGeo),
                         adminName.getText().toString(),
                         adminPass.getText().toString());
                 Intent intent = new Intent(CreateCompanyActivity.this, companyFeedActivity.class);
@@ -66,7 +68,12 @@ public class CreateCompanyActivity extends Activity {
             public void onClick(View v) {
                 mLastLocation = getLocation();
                 try {
-                    LatLng geo =  new LatLng(mLastLocation.getLatitude (), mLastLocation.getLongitude ());
+                    mCompanyGeo = new ParseGeoPoint();
+                    mCompanyGeo.setLatitude(mLastLocation.getLatitude ());
+                    mCompanyGeo.setLongitude(mLastLocation.getLongitude ());
+
+                    Button locationBtn = (Button) findViewById(R.id.btnSetCompanyLocation);
+                    locationBtn.setText(mLastLocation.getLatitude() + " : " + mLastLocation.getLongitude());
                 }
                 catch (NullPointerException e){
                     e.printStackTrace();

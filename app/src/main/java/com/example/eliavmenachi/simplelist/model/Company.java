@@ -3,10 +3,12 @@ package com.example.eliavmenachi.simplelist.model;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import com.parse.ParseGeoPoint;
 
 public class Company {
     String id;
     String name;
+    ParseGeoPoint location;
 
 //    location
     List<Employee> employees;
@@ -17,8 +19,9 @@ public class Company {
         this.employees = new LinkedList<Employee>();
     }
 
-    public Company(String name) {
+    public Company(String name, ParseGeoPoint location) {
         this.name = name;
+        this.location = location;
     }
 
     public Company(String id, String name, List<Employee> employees) {

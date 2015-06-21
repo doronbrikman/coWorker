@@ -119,7 +119,7 @@ public class ModelParse {
     public String addCompany(Company company) {
         ParseObject pstObject = new ParseObject("Company");
         pstObject.put("name", company.getName());
-        //pstObject.put("location", post.postTitle);
+        pstObject.put("location", company.location);
 
         try {
             pstObject.save();
