@@ -112,7 +112,7 @@ public class ModelParse {
         empObject.put("serialId", emp.id);
         empObject.put("name", emp.name);
         empObject.put("address", emp.address);
-        //empObject.put("imageName", emp.imageName);
+        empObject.put("imageName", emp.imageName);
         empObject.put("phone", emp.phone);
         empObject.put("department", emp.department);
         empObject.put("companyId", companyId);
