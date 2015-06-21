@@ -169,7 +169,7 @@ public class WorkersListActivity extends Activity implements SwipeRefreshLayout.
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
             if (convertView == null) {
                 LayoutInflater inflater = getLayoutInflater();
                 convertView = inflater.inflate(R.layout.row_layout, null);
@@ -188,9 +188,9 @@ public class WorkersListActivity extends Activity implements SwipeRefreshLayout.
                 call.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        //Employee emp = data.get((Integer) v.getTag());
+                        Employee emp = data.get(position);
                         Intent intent = new Intent(Intent.ACTION_DIAL);
-                        intent.setData(Uri.parse("tel:0123456789"));
+                        intent.setData(Uri.parse("tel:" + emp.getPhone()));
                         startActivity(intent);
                     }
                 });
