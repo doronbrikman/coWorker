@@ -3,6 +3,7 @@ package com.example.eliavmenachi.simplelist;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -58,7 +60,7 @@ public class WorkersListActivity extends Activity implements SwipeRefreshLayout.
         myList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getApplicationContext(), "item click " + position, Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(), "item click " + position, Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(getApplicationContext(),EmployeeDetailsActivity.class);
                 intent.putExtra("id",data.get(position).getId());
                 startActivity(intent);
@@ -179,6 +181,17 @@ public class WorkersListActivity extends Activity implements SwipeRefreshLayout.
                         Log.d("LISTAPP", "my tag is: " + v.getTag());
                         Employee emp = data.get((Integer) v.getTag());
                         emp.setAtWork(!emp.isAtWork());
+                    }
+                });
+
+                Button call = (Button) convertView.findViewById(R.id.call);
+                call.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //Employee emp = data.get((Integer) v.getTag());
+                        Intent intent = new Intent(Intent.ACTION_DIAL);
+                        intent.setData(Uri.parse("tel:0123456789"));
+                        startActivity(intent);
                     }
                 });
             }

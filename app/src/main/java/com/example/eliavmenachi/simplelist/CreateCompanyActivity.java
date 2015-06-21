@@ -17,6 +17,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.Location;
+import android.widget.Toast;
 
 import com.example.eliavmenachi.simplelist.model.Company;
 import com.example.eliavmenachi.simplelist.model.Model;
@@ -42,12 +43,19 @@ public class CreateCompanyActivity extends Activity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Model.getInstance().addCompany(
-                        new Company(companyName.getText().toString(), mCompanyGeo),
-                        adminName.getText().toString(),
-                        adminPass.getText().toString());
-                Intent intent = new Intent(CreateCompanyActivity.this, companyFeedActivity.class);
-                startActivity(intent);
+                if (companyName.getText().length() == 0 || adminName.getText().length() == 0 ||
+                    adminPass.getText().length() == 0 || mCompanyGeo == null)
+                {
+                    Toast.makeText(getApplicationContext(), "You must fill all fields", Toast.LENGTH_LONG).show();
+                }
+                else {
+                    Model.getInstance().addCompany(
+                            new Company(companyName.getText().toString(), mCompanyGeo),
+                            adminName.getText().toString(),
+                            adminPass.getText().toString());
+                    Intent intent = new Intent(CreateCompanyActivity.this, companyFeedActivity.class);
+                    startActivity(intent);
+                }
             }
         });
 

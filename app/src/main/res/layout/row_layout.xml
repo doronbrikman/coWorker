@@ -59,4 +59,14 @@
         android:focusable="false"
         android:layout_margin="10px" />
 
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Call"
+        android:id="@+id/call"
+        android:layout_toStartOf="@+id/checkBox"
+        android:layout_alignBottom="@+id/idTextView" />
+
+
 </RelativeLayout>

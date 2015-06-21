@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.eliavmenachi.simplelist.model.Model;
 import com.example.eliavmenachi.simplelist.model.Employee;
@@ -47,16 +48,25 @@ public class NewEmployeeActivity extends Activity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Model.getInstance().add(
-                        new Employee(idEt.getText().toString(),
-                                nameEt.getText().toString(),
-                                addressEt.getText().toString(),
-                                imageFileName, phoneEt.getText().toString(),
-                                deptEt.getText().toString(),
-                                check.isChecked()));
-                Intent resultIntent = new Intent();
-                setResult(Activity.RESULT_OK, resultIntent);
-                finish();
+                if (nameEt.getText().length() == 0 || addressEt.getText().length() == 0 ||
+                    deptEt.getText().length() == 0 || phoneEt.getText().length() == 0 ||
+                    idEt.getText().length() == 0)
+                {
+                    Toast.makeText(getApplicationContext(), "You must fill all fields", Toast.LENGTH_LONG).show();
+                }
+                else {
+                    Model.getInstance().add(
+                            new Employee(idEt.getText().toString(),
+                                    nameEt.getText().toString(),
+                                    addressEt.getText().toString(),
+                                    imageFileName,
+                                    phoneEt.getText().toString(),
+                                    deptEt.getText().toString(),
+                                    check.isChecked()));
+                    Intent resultIntent = new Intent();
+                    setResult(Activity.RESULT_OK, resultIntent);
+                    finish();
+                }
             }
         });
 
