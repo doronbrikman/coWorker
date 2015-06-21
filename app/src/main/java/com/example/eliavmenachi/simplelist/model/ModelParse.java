@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -58,6 +59,22 @@ public class ModelParse {
             return employees;
         }
         return employees;
+    }
+
+    public void updateEmployeeAtWork() {
+        ParseUser user = ParseUser.getCurrentUser();
+        ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Employee");
+        query.whereEqualTo("name", user.getUsername().toString());
+
+        query.getFirstInBackground(new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject parseObject, ParseException e) {
+                if (e == null) {
+                    parseObject.put("atWork", true);
+                    parseObject.saveInBackground();
+                }
+            }
+        });
     }
 
     public void getEmployeeById(String id, final Model.GetEmployee listener) {

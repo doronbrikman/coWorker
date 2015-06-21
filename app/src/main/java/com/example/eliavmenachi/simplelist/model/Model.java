@@ -49,6 +49,10 @@ public class Model {
         model.getCompaniesPostsAsync(listener);
     }
 
+    public void updateEmployeeAtWork() {
+        model.updateEmployeeAtWork();
+    }
+
     public interface GetEmployeeListener{
         public void onResult(List<Employee> employees);
     }
