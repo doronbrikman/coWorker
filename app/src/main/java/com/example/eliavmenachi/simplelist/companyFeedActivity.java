@@ -97,32 +97,17 @@ public class companyFeedActivity extends Activity implements SwipeRefreshLayout.
 
                             if (loc.distanceInKilometersTo(p) < 1)
                             {
-                                AlertDialog.Builder builder1 = new AlertDialog.Builder(getApplicationContext());
-                                builder1.setMessage("Have a nice day.");
-                                builder1.setPositiveButton("Yes",
-                                        new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog, int id) {
-                                                dialog.cancel();
-                                            }
-                                        });
-
-                                AlertDialog alert11 = builder1.create();
-                                alert11.show();
-
+                                Toast.makeText(getApplicationContext(),
+                                        "Have a nice day.",
+                                        Toast.LENGTH_LONG).show();
+                                Button arrived = (Button) findViewById(R.id.arrival);
+                                arrived.setEnabled(false);
                             }
                             else
                             {
-                                AlertDialog.Builder builder1 = new AlertDialog.Builder(getApplicationContext());
-                                builder1.setMessage("Lier! you are fired.");
-                                builder1.setPositiveButton("Yes",
-                                        new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog, int id) {
-                                                dialog.cancel();
-                                            }
-                                        });
-
-                                AlertDialog alert11 = builder1.create();
-                                alert11.show();
+                                Toast.makeText(getApplicationContext(),
+                                        "Lier! you are fired.",
+                                        Toast.LENGTH_LONG).show();
                             }
                         }
                     });
@@ -246,11 +231,13 @@ public class companyFeedActivity extends Activity implements SwipeRefreshLayout.
 
             TextView post = (TextView) convertView.findViewById(R.id.postText);
             TextView title = (TextView) convertView.findViewById(R.id.titleText);
+            TextView date = (TextView) convertView.findViewById(R.id.postDate);
 
             Post pt = data.get(position);
             convertView.setTag(position);
             post.setText(pt.getPost());
             title.setText(pt.getTitle());
+            date.setText(pt.getDate().toString());
 
             return convertView;
         }

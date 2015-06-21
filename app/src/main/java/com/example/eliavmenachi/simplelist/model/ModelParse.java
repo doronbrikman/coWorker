@@ -20,6 +20,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -129,6 +130,7 @@ public class ModelParse {
         pstObject.put("postComment", post.postComment);
         pstObject.put("postTitle", post.postTitle);
         pstObject.put("company", ParseUser.getCurrentUser().get("companyId").toString());
+        pstObject.put("createdDate", new Date());
 
         try {
             pstObject.save();
@@ -214,7 +216,8 @@ public class ModelParse {
                         String id = co.getObjectId();
                         String post = co.getString("postComment");
                         String title = co.getString("postTitle");
-                        Post p = new Post(id, post, title);
+                        Date createdAt = co.getCreatedAt();
+                        Post p = new Post(id, post, title, createdAt);
                         posts.add(p);
                     }
                 }

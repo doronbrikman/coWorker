@@ -9,11 +9,12 @@
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textSize="25sp"
+        android:textSize="22sp"
         android:text="Large Text"
+        android:textStyle="bold"
         android:id="@+id/titleText"
         android:layout_alignParentTop="true"
-        android:layout_margin="10px" />
+        android:layout_margin="5px" />
 
     <TextView
         android:layout_width="fill_parent"
@@ -22,14 +23,22 @@
         android:text="Small Text"
         android:id="@+id/postText"
         android:layout_below="@+id/titleText"
-        android:layout_margin="10px"/>
+        android:layout_margin="5px"/>
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="10sp"
+        android:text="Small Text"
+        android:id="@+id/postDate"
+        android:layout_below="@+id/postText"
+        android:layout_margin="5px"/>
 
     <Space
         android:layout_width="fill_parent"
         android:layout_height="20px"
-        android:layout_below="@+id/postText"
-        android:layout_alignStart="@+id/postText"
-        android:background="#ff68f3ff"/>
+        android:layout_below="@+id/postDate"
+        android:layout_alignStart="@+id/postDate"/>
 
 
 </RelativeLayout>
