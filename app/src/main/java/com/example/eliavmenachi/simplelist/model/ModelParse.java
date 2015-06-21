@@ -8,6 +8,7 @@ import com.parse.FindCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseACL;
@@ -80,6 +81,26 @@ public class ModelParse {
             }
         });
     }
+
+    public void getCompanyLocation(final Model.GetCompanyLocation listener) {
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        String companyId = currentUser.get("companyId").toString();
+
+        ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Company");
+        query.whereEqualTo("objectId", companyId);
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> parseObjects, ParseException e) {
+                ParseGeoPoint loc = null;
+                if (e == null && parseObjects.size() > 0) {
+                    ParseObject po = parseObjects.get(0);
+                    loc = po.getParseGeoPoint("location");
+                }
+                listener.onResult(loc);
+            }
+        });
+    }
+
 
 
     public void add(Employee emp) {

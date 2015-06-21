@@ -7,6 +7,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 
+import com.parse.ParseGeoPoint;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -49,6 +51,15 @@ public class Model {
 
     public interface GetEmployeeListener{
         public void onResult(List<Employee> employees);
+    }
+
+    public interface GetCompanyLocation{
+        public void onResult(ParseGeoPoint loc);
+    }
+
+    public void GetCompanyLoc(GetCompanyLocation listener)
+    {
+        model.getCompanyLocation(listener);
     }
 
     public void getAllStudentsAsynch(GetEmployeeListener listener){

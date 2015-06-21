@@ -1,15 +1,23 @@
 package com.example.eliavmenachi.simplelist;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.eliavmenachi.simplelist.model.Company;
 import com.example.eliavmenachi.simplelist.model.Post;
 import com.example.eliavmenachi.simplelist.model.Model;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseUser;
 import android.view.LayoutInflater;
 import android.view.View.OnClickListener;
@@ -33,6 +41,7 @@ public class companyFeedActivity extends Activity implements SwipeRefreshLayout.
     static final int BACK_FROM_NEW_POST_ACTIVITY = 1;
     //static final int BACK_FROM_EMPLOYEES_VIEW = 2;
     SwipeRefreshLayout swipeLayout;
+    Location mLastLocation;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -72,6 +81,74 @@ public class companyFeedActivity extends Activity implements SwipeRefreshLayout.
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
+
+        Button arrived = (Button) findViewById(R.id.arrival);
+        arrived.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mLastLocation = getLocation();
+                try {
+                    Model.getInstance().GetCompanyLoc(new Model.GetCompanyLocation() {
+                        @Override
+                        public void onResult(ParseGeoPoint loc) {
+                            ParseGeoPoint p = new ParseGeoPoint();
+                            p.setLatitude(mLastLocation.getLatitude ());
+                            p.setLongitude(mLastLocation.getLongitude ());
+
+                            if (loc.distanceInKilometersTo(p) < 1)
+                            {
+                                AlertDialog.Builder builder1 = new AlertDialog.Builder(getApplicationContext());
+                                builder1.setMessage("Have a nice day.");
+                                builder1.setPositiveButton("Yes",
+                                        new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int id) {
+                                                dialog.cancel();
+                                            }
+                                        });
+
+                                AlertDialog alert11 = builder1.create();
+                                alert11.show();
+
+                            }
+                            else
+                            {
+                                AlertDialog.Builder builder1 = new AlertDialog.Builder(getApplicationContext());
+                                builder1.setMessage("Lier! you are fired.");
+                                builder1.setPositiveButton("Yes",
+                                        new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int id) {
+                                                dialog.cancel();
+                                            }
+                                        });
+
+                                AlertDialog alert11 = builder1.create();
+                                alert11.show();
+                            }
+                        }
+                    });
+
+
+                }
+                catch (NullPointerException e){
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    public Location getLocation()
+    {
+        // Get the location manager
+        LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+
+        boolean isNetworkEnable = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        boolean isGpsEnable = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+
+        Criteria criteria = new Criteria();
+        String bestProvider = locationManager.getBestProvider(criteria, true);
+        /*String locationProvider = LocationManager.NETWORK_PROVIDER;
+        mLastLocation = locationManager.getLastKnownLocation(locationProvider);*/
+        return locationManager.getLastKnownLocation(bestProvider);
     }
 
     @Override
