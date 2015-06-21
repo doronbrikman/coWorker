@@ -102,6 +102,7 @@ public class companyFeedActivity extends Activity implements SwipeRefreshLayout.
                                         Toast.LENGTH_LONG).show();
                                 Button arrived = (Button) findViewById(R.id.arrival);
                                 arrived.setEnabled(false);
+                                Model.getInstance().updateEmployeeAtWork();
                             }
                             else
                             {
