@@ -17,7 +17,10 @@ import android.view.ViewGroup;
 import com.example.eliavmenachi.simplelist.model.Company;
 import com.example.eliavmenachi.simplelist.model.Post;
 import com.example.eliavmenachi.simplelist.model.Model;
+import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import android.view.LayoutInflater;
 import android.view.View.OnClickListener;
@@ -87,6 +90,21 @@ public class companyFeedActivity extends Activity implements SwipeRefreshLayout.
         boolean b = currentUser.getBoolean("admin");
         if (b)
             arrived.setVisibility(View.GONE);
+        else {
+            ParseQuery query = new ParseQuery("Employee");
+            query.whereEqualTo("name", currentUser.getUsername());
+
+            try {
+                List<ParseObject> data = query.find();
+
+                if (!data.isEmpty()) {
+                    b = data.get(0).getBoolean("atWork");
+                    arrived.setEnabled(!b);
+                }
+            } catch (ParseException ex) {
+                ex.printStackTrace();
+            }
+        }
 
         arrived.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,7 +125,8 @@ public class companyFeedActivity extends Activity implements SwipeRefreshLayout.
                                 p.setLatitude(mLastLocation.getLatitude());
                                 p.setLongitude(mLastLocation.getLongitude());
 
-                                if (loc.distanceInKilometersTo(p) < 1) {
+                                double distance = loc.distanceInMilesTo(p);
+                                if (distance < 1) {
                                     Toast.makeText(getApplicationContext(),
                                             "Have a nice day.",
                                             Toast.LENGTH_LONG).show();
