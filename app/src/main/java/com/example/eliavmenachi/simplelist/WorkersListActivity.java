@@ -178,9 +178,8 @@ public class WorkersListActivity extends Activity implements SwipeRefreshLayout.
                 cb1.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Log.d("LISTAPP", "my tag is: " + v.getTag());
-                        Employee emp = data.get((Integer) v.getTag());
-                        emp.setAtWork(!emp.isAtWork());
+                        CheckBox cb = (CheckBox)v;
+                        cb.setChecked(true);
                     }
                 });
 

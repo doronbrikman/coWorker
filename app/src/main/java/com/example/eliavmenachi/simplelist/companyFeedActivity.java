@@ -83,40 +83,49 @@ public class companyFeedActivity extends Activity implements SwipeRefreshLayout.
                 android.R.color.holo_red_light);
 
         Button arrived = (Button) findViewById(R.id.arrival);
+
+        boolean b = currentUser.getBoolean("admin");
+        if (b)
+            arrived.setVisibility(View.GONE);
+
         arrived.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mLastLocation = getLocation();
-                try {
-                    Model.getInstance().GetCompanyLoc(new Model.GetCompanyLocation() {
-                        @Override
-                        public void onResult(ParseGeoPoint loc) {
-                            ParseGeoPoint p = new ParseGeoPoint();
-                            p.setLatitude(mLastLocation.getLatitude ());
-                            p.setLongitude(mLastLocation.getLongitude ());
-
-                            if (loc.distanceInKilometersTo(p) < 1)
-                            {
-                                Toast.makeText(getApplicationContext(),
-                                        "Have a nice day.",
-                                        Toast.LENGTH_LONG).show();
-                                Button arrived = (Button) findViewById(R.id.arrival);
-                                arrived.setEnabled(false);
-                                Model.getInstance().updateEmployeeAtWork();
-                            }
-                            else
-                            {
-                                Toast.makeText(getApplicationContext(),
-                                        "Lier! you are fired.",
-                                        Toast.LENGTH_LONG).show();
-                            }
-                        }
-                    });
-
-
+                if (mLastLocation == null)
+                {
+                    Toast.makeText(getApplicationContext(),
+                            "Couldnt get location.",
+                            Toast.LENGTH_LONG).show();
                 }
-                catch (NullPointerException e){
-                    e.printStackTrace();
+                else {
+                    try {
+                        Model.getInstance().GetCompanyLoc(new Model.GetCompanyLocation() {
+                            @Override
+                            public void onResult(ParseGeoPoint loc) {
+                                ParseGeoPoint p = new ParseGeoPoint();
+                                p.setLatitude(mLastLocation.getLatitude());
+                                p.setLongitude(mLastLocation.getLongitude());
+
+                                if (loc.distanceInKilometersTo(p) < 1) {
+                                    Toast.makeText(getApplicationContext(),
+                                            "Have a nice day.",
+                                            Toast.LENGTH_LONG).show();
+                                    Button arrived = (Button) findViewById(R.id.arrival);
+                                    arrived.setEnabled(false);
+                                    Model.getInstance().updateEmployeeAtWork();
+                                } else {
+                                    Toast.makeText(getApplicationContext(),
+                                            "Lier! you are fired.",
+                                            Toast.LENGTH_LONG).show();
+                                }
+                            }
+                        });
+
+
+                    } catch (NullPointerException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });
@@ -132,8 +141,7 @@ public class companyFeedActivity extends Activity implements SwipeRefreshLayout.
 
         Criteria criteria = new Criteria();
         String bestProvider = locationManager.getBestProvider(criteria, true);
-        /*String locationProvider = LocationManager.NETWORK_PROVIDER;
-        mLastLocation = locationManager.getLastKnownLocation(locationProvider);*/
+
         return locationManager.getLastKnownLocation(bestProvider);
     }
 
