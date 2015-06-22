@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     tools:context=".MainActivity"
+    android:descendantFocusability="blocksDescendants"
     android:orientation="horizontal">
 
 
@@ -57,16 +58,18 @@
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:focusable="false"
+        android:enabled="false"
         android:layout_margin="10px" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
+        android:layout_width="48dp"
         android:layout_height="wrap_content"
         android:text="Call"
         android:id="@+id/call"
         android:layout_toStartOf="@+id/checkBox"
-        android:layout_alignBottom="@+id/idTextView" />
+        android:layout_alignBottom="@+id/idTextView"
+        />
 
 
 </RelativeLayout>
